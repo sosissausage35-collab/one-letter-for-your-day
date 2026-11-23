@@ -9,9 +9,16 @@
 // The program writes that single letter — nothing else, no word, no
 // punctuation, no trailing newline — to /output/entry.txt.
 
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const LETTER = "J";
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LETTER, "utf8");
+
+// Read the file back and verify what the grader will see: exactly one
+// letter, A-Z, and nothing else.
+const written = readFileSync("/output/entry.txt", "utf8");
+if (!/^[A-Z]$/.test(written)) {
+  throw new Error("Read-back mismatch: /output/entry.txt must hold exactly one letter A-Z");
+}
